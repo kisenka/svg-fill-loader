@@ -1,5 +1,5 @@
 require('chai').should();
-var transform = require('../lib/posthtml-plugin').transformSelectorToMatcher;
+var transform = require('../lib/posthtmlPlugin').transformSelectorToMatcher;
 var process = require('../lib/process');
 
 function test(name, options, input, expected) {
@@ -40,9 +40,9 @@ describe('Fill plugin', function() {
 
   test(
     'should single tag',
-    {fill: '#f00'},
-    '<path />',
-    '<path fill="#f00" />'
+    {fill: '#f00', selector: 'path'},
+    '<path /><circle />',
+    '<path fill="#f00" /><circle />'
   );
 
   test(
@@ -50,5 +50,5 @@ describe('Fill plugin', function() {
     {fill: 'red', selector: 'path, circle'},
     '<path /><circle />',
     '<path fill="red" /><circle fill="red" />'
-  )
+  );
 });

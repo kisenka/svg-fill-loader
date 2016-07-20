@@ -14,44 +14,46 @@ function test(name, options, input, expected) {
   })
 }
 
-describe('Selector transformer', function() {
-  it('should support single tag selector', function () {
-    transformSelectorToMatcher('path').should.be.eql([ {tag: 'path'} ]);
+describe('postHTML fill plugin wrapper', function () {
+  describe('Selector transformer', function() {
+    it('should support single tag selector', function () {
+      transformSelectorToMatcher('path').should.be.eql([ {tag: 'path'} ]);
+    });
+
+    it('should support tag selectors separated by comma', function () {
+      transformSelectorToMatcher('circle,path').should.be.eql([
+        {tag: 'circle'}, {tag: 'path'}
+      ]);
+    });
+
+    it('should trim whitespaces in selectors', function () {
+      transformSelectorToMatcher('         circle,  path ').should.be.eql([
+        {tag: 'circle'}, {tag: 'path'}
+      ]);
+    });
   });
 
-  it('should support tag selectors separated by comma', function () {
-    transformSelectorToMatcher('circle,path').should.be.eql([
-      {tag: 'circle'}, {tag: 'path'}
-    ]);
+  describe('Fill posthtml plugin', function() {
+    test(
+      'should do nothing if fill option not provided',
+      null,
+      '<path />',
+      '<path />'
+    );
+
+    test(
+      'should process single tag',
+      {fill: '#f00', selector: 'path'},
+      '<path /><circle />',
+      '<path fill="#f00" /><circle />'
+    );
+
+    test(
+      'should process multiple tags',
+      {fill: 'red', selector: 'path, circle'},
+      '<path /><circle />',
+      '<path fill="red" /><circle fill="red" />'
+    );
+
   });
-
-  it('should trim whitespaces in selectors', function () {
-    transformSelectorToMatcher('         circle,  path ').should.be.eql([
-      {tag: 'circle'}, {tag: 'path'}
-    ]);
-  });
-});
-
-describe('Fill posthtml plugin', function() {
-  test(
-    'should do nothing if fill option not provided',
-    null,
-    '<path />',
-    '<path />'
-  );
-
-  test(
-    'should process single tag',
-    {fill: '#f00', selector: 'path'},
-    '<path /><circle />',
-    '<path fill="#f00" /><circle />'
-  );
-
-  test(
-    'should process multiple tags',
-    {fill: 'red', selector: 'path, circle'},
-    '<path /><circle />',
-    '<path fill="red" /><circle fill="red" />'
-  );
-
 });

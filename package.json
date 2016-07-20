@@ -17,6 +17,10 @@
     "url": "https://github.com/kisenka/svg-fill-loader/issues"
   },
   "homepage": "https://github.com/kisenka/svg-fill-loader#readme",
+  "files": [
+    "lib/",
+    "encodeSharp.js"
+  ],
   "dependencies": {
     "loader-utils": "^0.2.15",
     "object-assign": "^4.1.0",

@@ -6,3 +6,11 @@ node_js:
   - "0.12"
 before_install: npm install -g npm@'>=2.7.4'
 script: npm test
+
+env:
+  global:
+    - ISTANBUL_COVERAGE: yes
+
+after_success:
+  - npm i coveralls
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && echo "Coverage data was sent to coveralls!"

@@ -1,6 +1,8 @@
 require('chai').should();
-var transform = require('../lib/posthtmlPlugin').transformSelectorToMatcher;
+var sprintf = require('util').format;
 var process = require('../lib/process');
+var plugin = require('../lib/posthtmlPlugin');
+var transformSelectorToMatcher = plugin.transformSelectorToMatcher;
 
 function test(name, options, input, expected) {
   it(name, function (done) {
@@ -14,23 +16,23 @@ function test(name, options, input, expected) {
 
 describe('Selector transformer', function() {
   it('should support single tag selector', function () {
-    transform('path').should.be.eql([ {tag: 'path'} ]);
+    transformSelectorToMatcher('path').should.be.eql([ {tag: 'path'} ]);
   });
 
   it('should support tag selectors separated by comma', function () {
-    transform('circle,path').should.be.eql([
+    transformSelectorToMatcher('circle,path').should.be.eql([
       {tag: 'circle'}, {tag: 'path'}
     ]);
   });
 
   it('should trim whitespaces in selectors', function () {
-    transform('         circle,  path ').should.be.eql([
+    transformSelectorToMatcher('         circle,  path ').should.be.eql([
       {tag: 'circle'}, {tag: 'path'}
     ]);
   });
 });
 
-describe('Fill plugin', function() {
+describe('Fill posthtml plugin', function() {
   test(
     'should do nothing if fill option not provided',
     null,
@@ -39,16 +41,17 @@ describe('Fill plugin', function() {
   );
 
   test(
-    'should single tag',
+    'should process single tag',
     {fill: '#f00', selector: 'path'},
     '<path /><circle />',
     '<path fill="#f00" /><circle />'
   );
 
   test(
-    'should fill multiple tags',
+    'should process multiple tags',
     {fill: 'red', selector: 'path, circle'},
     '<path /><circle />',
     '<path fill="red" /><circle fill="red" />'
   );
+
 });

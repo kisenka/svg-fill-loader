@@ -32,6 +32,7 @@ npm install svg-fill-loader --save
 ## Configuration
 
 Loader has two settings levels:
+
 1. Webpack config.
 2. SVG file import statement.
 
@@ -54,7 +55,7 @@ module.exports = {
 }
 ```
 
-Default tag list can be found here [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L18).
+Default tag list can be found in [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L18).
 
 ### `fill` (required)
 
@@ -94,9 +95,10 @@ import icon from './icon.svg?fill=red&raw=false';
 
 ### Escaping sharp symbol in CSS url() imports
 
-If you're using css-loader to handle CSS, keep in mind that it will cut away symbols after `#` when handling imports via `url(...)`,
-which means that the expression `url(image.svg?fill=#f00)` will be treated as `url(image.svg?fill=)`,
-and the loader will not be able to handle the file. As a workaround, you can use the `encodeSharp` loader that is shipped with svg-fill-loader.
+If you're using css-loader to handle CSS, keep in mind that it will [cut away symbols after `#`](https://github.com/webpack/css-loader/blob/master/lib/loader.js#L79)
+when handling imports via `url(...)`, which means that the expression `url(image.svg?fill=#f00)` will be treated as `url(image.svg?fill=)`,
+and the loader will not be able to handle the file. As a workaround, you can use `%23` instead of sharp (ffffuuuu),
+or use the `encodeSharp` loader that is shipped with svg-fill-loader (yey!).
 Mind the order in which loaders are used:
 
 ```js

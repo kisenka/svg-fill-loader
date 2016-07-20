@@ -26,6 +26,7 @@
     "posthtml-render": "^1.0.6"
   },
   "devDependencies": {
+    "bluebird": "^3.4.1",
     "chai": "^3.5.0",
     "memory-fs": "^0.3.0",
     "mocha": "^2.5.3",

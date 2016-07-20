@@ -27,11 +27,13 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "memory-fs": "^0.3.0",
     "mocha": "^2.5.3",
     "postcss": "^5.1.0",
     "posthtml": "^0.9.0",
     "posthtml-parser": "^0.2.0",
     "posthtml-render": "^1.0.6",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-config-merger": "0.0.5"
   }
 }

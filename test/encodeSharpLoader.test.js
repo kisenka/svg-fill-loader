@@ -50,7 +50,7 @@ describe('Encode sharp in CSS URLs loader', function () {
             test: /\.svg/,
             loaders: [
               'file-loader?name=[name].[ext]',
-              fillLoaderPath + '?raw'
+              fillLoaderPath
             ]
           }
         ]

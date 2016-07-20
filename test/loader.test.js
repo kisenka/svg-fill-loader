@@ -39,19 +39,19 @@ describe('SVG fill loader', function() {
       .catch(done);
   });
 
-  it('`raw` option is false by default', function(done) {
+  it('`raw` option is true by default', function(done) {
     runInFakeContext('<svg></svg>', {query: ''})
       .then(function(result) {
-        result.should.contain('module.exports');
+        result.should.not.contain('module.exports');
         done();
       })
       .catch(done);
   });
 
-  it('should handle `raw` option properly', function(done) {
-    runInFakeContext('<svg></svg>', {query: '?raw=true'})
+  it('should allow to disable `raw` properly', function(done) {
+    runInFakeContext('<svg></svg>', {query: '?raw=false'})
       .then(function(result) {
-        result.should.not.contain('module.exports');
+        result.should.contain('module.exports');
         done();
       })
       .catch(done);
@@ -62,7 +62,7 @@ describe('SVG fill loader', function() {
     var expected = '<path fill="red" /><circle fill="red" /><polygon />';
 
     runInFakeContext(input, {
-      query: '?raw&selector=path,circle&fill=red'
+      query: '?selector=path,circle&fill=red'
     })
       .then(function(result) {
         result.should.eql(expected);
@@ -76,7 +76,7 @@ describe('SVG fill loader', function() {
     var expected = '<path fill="blue" /><circle />';
 
     runInFakeContext(input, {
-      query: '?raw&selector=path',
+      query: '?selector=path',
       resourceQuery: '?fill=blue'
     })
       .then(function(result) {

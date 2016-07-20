@@ -29,6 +29,8 @@ $icon-color: #fff;
 npm install svg-fill-loader --save
 ```
 
+## Configuration
+
 Loader has two settings levels:
 1. Webpack config.
 2. SVG file import statement.

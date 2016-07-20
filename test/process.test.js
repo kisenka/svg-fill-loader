@@ -55,5 +55,12 @@ describe('postHTML fill plugin wrapper', function () {
       '<path fill="red" /><circle fill="red" />'
     );
 
+    test(
+      'should overwrite fill attribute',
+      {fill: 'blue'},
+      '<path fill="red" />',
+      '<path fill="blue" />'
+    )
+
   });
 });

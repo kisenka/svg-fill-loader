@@ -110,14 +110,17 @@ module.exports = {
     loaders: [
       {
         test: /\.svg\?fill=/,
-        loader: 'svg-fill-loader'
+        loader: [
+          'url',
+          'svg-fill'
+        ]
       },
       {
         test: /\.css$/,
         loaders: [
-          'css-loader',
-          'svg-fill-loader/encodeSharp', // <- encodeSharp loader should be defined BEFORE css-loader
-          'sass-loader' // but after any other loaders which produces CSS
+          'css',
+          'svg-fill/encodeSharp', // <- encodeSharp loader should be defined BEFORE css-loader
+          'sass' // but after any other loaders which produces CSS
         ]
       }
     ]

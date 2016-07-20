@@ -4,7 +4,8 @@
   "description": "Webpack loader to change color of SVG images",
   "main": "lib/loader.js",
   "scripts": {
-    "test": "mocha test/*.test.js"
+    "test": "mocha test/*.test.js & npm run coverage",
+    "coverage": "istanbul cover --report text --report html --report lcov node_modules/mocha/bin/_mocha"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "file-loader": "^0.9.0",
+    "istanbul": "^0.4.4",
     "memory-fs": "^0.3.0",
     "mocha": "^2.5.3",
     "postcss": "^5.1.0",

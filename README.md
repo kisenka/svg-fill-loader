@@ -1,4 +1,4 @@
-# SVG fill loader for Webpack
+# SVG fill loader for Webpack [![Build Status](https://travis-ci.org/kisenka/svg-fill-loader.svg?branch=master)](https://travis-ci.org/kisenka/svg-fill-loader)
 
 Webpack loader that changes colors in SVG images.
 Useful when you embed SVG in CSS as background image and don't want to produce

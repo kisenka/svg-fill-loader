@@ -4,6 +4,8 @@ Webpack loader that changes colors in SVG images.
 Useful when you embed SVG in CSS as background image and don't want to produce
 tons of identical files which only differ in their `fill` attributes.
 
+<img src="./preview.gif" width="806" height="289">
+
 Allow to do something like this in CSS:
 ```css
 .icon {

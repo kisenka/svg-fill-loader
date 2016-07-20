@@ -11,7 +11,7 @@ var Promise = require('bluebird');
  *  _promise: Promise,
  * }}
  */
-function createMockedContext(context) {
+function createFakeLoaderContext(context) {
   var resolve;
   var reject;
   var donePromise = new Promise(function (res, rej) {
@@ -43,4 +43,4 @@ function createMockedContext(context) {
   return mockedContext;
 }
 
-module.exports = createMockedContext;
+module.exports = createFakeLoaderContext;

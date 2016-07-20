@@ -1,4 +1,4 @@
-var InMemoryCompiler = require('./test-utils/inMemoryCompiler');
+var InMemoryCompiler = require('./InMemoryCompiler');
 var mergeWebpackConfig = require('webpack-config-merger');
 
 /**
@@ -11,7 +11,7 @@ function createCompiler(config, inputFS, outputFS) {
   var defaultConfig = {
     context: '/',
     output: {
-      filename: 'entry.js',
+      filename: '[name].js',
       path: '/build'
     }
   };

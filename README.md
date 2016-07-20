@@ -48,7 +48,10 @@ module.exports = {
     loaders: [
       {
         test: /\.svg\?fill=/, // match only imports like `url(image.svg?fill=red)`
-        loader: 'svg-fill?selector=path,circle' // `selector` option will be used for all images processed by loader
+        loaders: [
+          'url', // or file-loader
+          'svg-fill?selector=path,circle' // `selector` option will be used for all images processed by loader
+        ]
       }
     ]
   }

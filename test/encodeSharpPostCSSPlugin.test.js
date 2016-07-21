@@ -30,4 +30,11 @@ describe('Encode sharp in query string postcss plugin', function() {
     '.a {background: url(./image.svg?query#lalala);}'
   );
 
+  test(
+    'should encode sharp in every param',
+    null,
+    '.a {background: url(image.svg?fill=#f0f&stroke=#000&tralala=#00ffdd#qwe)}',
+    '.a {background: url(image.svg?fill=%23f0f&stroke=%23000&tralala=%2300ffdd#qwe)}'
+  );
+
 });

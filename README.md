@@ -42,7 +42,13 @@ Loader has two settings levels:
 
 ### `selector` (optional)
 
-Comma-separated list of SVG tags to be repainted.
+CSS selector for nodes to be repainted. Very simple CSS selectors are supported: 
+- tag selector: `path`.
+- id selector: `#id`.
+- class selector: `.class`.
+- selectors can be combined via comma: `circle, .path, #id`.
+
+All presentation SVG tags are used as default selector. You can find them in [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L18).
 
 Webpack config example:
 
@@ -61,8 +67,6 @@ module.exports = {
   }
 }
 ```
-
-Default tag list can be found in [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L18).
 
 ### `fill` (required)
 

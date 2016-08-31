@@ -1,5 +1,4 @@
 require('chai').should();
-var sprintf = require('util').format;
 var process = require('../lib/process');
 var plugin = require('../lib/posthtmlPlugin');
 var transformSelectorToMatcher = plugin.transformSelectorToMatcher;
@@ -14,26 +13,50 @@ function test(name, options, input, expected) {
   })
 }
 
-describe('postHTML fill plugin wrapper', function () {
-  describe('Selector transformer', function() {
+describe('Plugin wrapper', function () {
+  describe('.transformSelectorToMatcher', function() {
     it('should support single tag selector', function () {
-      transformSelectorToMatcher('path').should.be.eql([ {tag: 'path'} ]);
-    });
+      transformSelectorToMatcher('path').should.be.eql([
+        {tag: 'path'}
+      ]);
 
-    it('should support tag selectors separated by comma', function () {
       transformSelectorToMatcher('circle,path').should.be.eql([
-        {tag: 'circle'}, {tag: 'path'}
+        {tag: 'circle'},
+        {tag: 'path'}
       ]);
     });
 
     it('should trim whitespaces in selectors', function () {
       transformSelectorToMatcher('         circle,  path ').should.be.eql([
-        {tag: 'circle'}, {tag: 'path'}
+        {tag: 'circle'},
+        {tag: 'path'}
+      ]);
+    });
+
+    it('should support #id selector', function () {
+      transformSelectorToMatcher('#circle').should.be.eql([
+        {attrs: {id: 'circle'}}
+      ]);
+
+      transformSelectorToMatcher('path, #circle').should.be.eql([
+        {tag: 'path'},
+        {attrs: {id: 'circle'}}
+      ]);
+    });
+
+    it('should support #class selector', function () {
+      transformSelectorToMatcher('.circle').should.be.eql([
+        {attrs: {'class': 'circle'}}
+      ]);
+
+      transformSelectorToMatcher('path, .circle').should.be.eql([
+        {tag: 'path'},
+        {attrs: {'class': 'circle'}}
       ]);
     });
   });
 
-  describe('Fill posthtml plugin', function() {
+  describe('Plugin', function() {
     test(
       'should do nothing if fill option not provided',
       null,
@@ -56,11 +79,25 @@ describe('postHTML fill plugin wrapper', function () {
     );
 
     test(
+      'should process #id selectors',
+      {fill: 'red', selector: '#id'},
+      '<path id="id" /><circle />',
+      '<path id="id" fill="red" /><circle />'
+    );
+
+    test(
+      'should process .class selectors',
+      {fill: 'red', selector: '.class'},
+      '<path class="class" /><circle />',
+      '<path class="class" fill="red" /><circle />'
+    );
+
+    test(
       'should overwrite fill attribute',
       {fill: 'blue'},
       '<path fill="red" />',
       '<path fill="blue" />'
-    )
+    );
 
   });
 });

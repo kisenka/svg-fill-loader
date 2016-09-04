@@ -5,7 +5,7 @@ var loader = require('../encodeSharp');
 var encodeSharpLoaderPath = require.resolve('../encodeSharp');
 var createCompiler = require('./test-utils/createInMemoryCompiler');
 var fillLoaderPath = require.resolve('../lib/loader');
-var mockContext = require('../../webpack-toolkit/lib/MockedLoaderContext');
+var mockContext = require('webpack-toolkit/lib/MockedLoaderContext');
 var mergeWebpackConfig = require('webpack-config-merger');
 
 describe('Encode sharp in CSS URLs loader', function () {

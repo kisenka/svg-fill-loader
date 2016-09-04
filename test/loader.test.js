@@ -5,7 +5,7 @@ chai.use(require('sinon-chai'));
 
 var loader = require('../lib/loader');
 var parseQuery = loader.parseQuery;
-var mockContext = require('../../webpack-toolkit/lib/MockedLoaderContext');
+var mockContext = require('webpack-toolkit/lib/MockedLoaderContext');
 
 /**
  * @param {String} content

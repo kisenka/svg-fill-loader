@@ -1,4 +1,4 @@
-var InMemoryCompiler = require('./InMemoryCompiler');
+var InMemoryCompiler = require('webpack-toolkit/lib/InMemoryCompiler');
 var mergeWebpackConfig = require('webpack-config-merger');
 
 /**
@@ -18,8 +18,8 @@ function createCompiler(config, inputFS, outputFS) {
 
   return new InMemoryCompiler(
     mergeWebpackConfig(defaultConfig, config || {}),
-    typeof inputFS === 'boolean' ? inputFS : true,
-    typeof outputFS === 'boolean' ? outputFS : true
+    inputFS,
+    outputFS
   );
 }
 

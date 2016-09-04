@@ -3,20 +3,10 @@ require('chai').should();
 var path = require('path');
 var loader = require('../encodeSharp');
 var encodeSharpLoaderPath = require.resolve('../encodeSharp');
-var createMockedContext = require('./test-utils/createFakeLoaderContext');
 var createCompiler = require('./test-utils/createInMemoryCompiler');
 var fillLoaderPath = require.resolve('../lib/loader');
-
-/**
- * @param {String} content
- * @param {Object} context
- * @returns {Promise}
- */
-function runWithFakeContext(content, context) {
-  var context = createMockedContext(context);
-  loader.call(context, content);
-  return context._promise;
-}
+var mockContext = require('../../webpack-toolkit/lib/MockedLoaderContext');
+var mergeWebpackConfig = require('webpack-config-merger');
 
 describe('Encode sharp in CSS URLs loader', function () {
 
@@ -24,7 +14,7 @@ describe('Encode sharp in CSS URLs loader', function () {
     var input = '.a {background: url("./image.svg?fill=#f00")}';
     var expected = '.a {background: url("./image.svg?fill=%23f00")}';
 
-    runWithFakeContext(input)
+    mockContext().run(loader, input)
       .then(function (result) {
         result.should.eql(expected);
         done();

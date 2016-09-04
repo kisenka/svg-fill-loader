@@ -5,7 +5,7 @@ chai.use(require('sinon-chai'));
 
 var loader = require('../lib/loader');
 var parseQuery = loader.parseQuery;
-var createFakeContext = require('./test-utils/createFakeLoaderContext');
+var mockContext = require('../../webpack-toolkit/lib/MockedLoaderContext');
 
 /**
  * @param {String} content
@@ -13,9 +13,8 @@ var createFakeContext = require('./test-utils/createFakeLoaderContext');
  * @returns {Promise}
  */
 function runInFakeContext(content, context) {
-  var context = createFakeContext(context);
-  loader.call(context, content);
-  return context._promise;
+  var context = mockContext(context);
+  return context.run(loader, content);
 }
 
 describe('SVG fill loader', function() {
@@ -29,11 +28,11 @@ describe('SVG fill loader', function() {
   });
 
   it('should be cacheable', function (done) {
-    var spy = sinon.spy(function() { return true });
+    var context = mockContext();
 
-    runInFakeContext('', { cacheable: spy })
+    context.run(loader, '')
       .then(function () {
-        spy.should.have.been.calledOnce;
+        context.isCacheable.should.eql(true);
         done();
       })
       .catch(done);

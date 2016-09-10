@@ -46,13 +46,13 @@ describe('Encode sharp in CSS URLs loader', () => {
     };
 
     var compiler = new InMemoryCompiler(webpackConfig, {inputFS: true});
+    var fs = compiler.inputFS;
     var cssLoaderClientRuntimePath = require.resolve('css-loader/lib/css-base.js');
     var cssLoaderClientRuntimeScript = require('fs').readFileSync(cssLoaderClientRuntimePath).toString();
 
-    compiler
-      .write(cssLoaderClientRuntimePath, cssLoaderClientRuntimeScript)
-      .then(() => compiler.write('styles.css', '.a {background-image: url("./image.svg?fill=#f00");}'))
-      .then(() => compiler.write('image.svg', '<path />'))
+    fs.write(cssLoaderClientRuntimePath, cssLoaderClientRuntimeScript)
+      .then(() => fs.write('styles.css', '.a {background-image: url("./image.svg?fill=#f00");}'))
+      .then(() => fs.write('image.svg', '<path />'))
       .then(() => compiler.run())
       .then(compilation => {
         var imageContent = compilation.assets['image.svg'].source().toString();

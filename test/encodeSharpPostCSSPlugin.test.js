@@ -14,7 +14,7 @@ function test(name, options, input, expected) {
   })
 }
 
-describe('Encode sharp in query string postcss plugin', function() {
+describe('Encode sharp in query string postcss plugin', () => {
 
   test(
     'should encode',

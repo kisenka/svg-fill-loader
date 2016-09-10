@@ -39,7 +39,6 @@
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1",
-    "webpack-config-merger": "0.0.5",
-    "webpack-toolkit": "0.0.3"
+    "webpack-toolkit": "^0.2.0"
   }
 }

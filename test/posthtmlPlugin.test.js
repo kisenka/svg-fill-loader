@@ -13,9 +13,9 @@ function test(name, options, input, expected) {
   })
 }
 
-describe('Plugin wrapper', function () {
-  describe('.transformSelectorToMatcher', function() {
-    it('should support single tag selector', function () {
+describe('Plugin wrapper', () => {
+  describe('.transformSelectorToMatcher', () => {
+    it('should support single tag selector', () => {
       transformSelectorToMatcher('path').should.be.eql([
         {tag: 'path'}
       ]);
@@ -26,14 +26,14 @@ describe('Plugin wrapper', function () {
       ]);
     });
 
-    it('should trim whitespaces in selectors', function () {
+    it('should trim whitespaces in selectors', () => {
       transformSelectorToMatcher('         circle,  path ').should.be.eql([
         {tag: 'circle'},
         {tag: 'path'}
       ]);
     });
 
-    it('should support #id selector', function () {
+    it('should support #id selector', () => {
       transformSelectorToMatcher('#circle').should.be.eql([
         {attrs: {id: 'circle'}}
       ]);
@@ -44,7 +44,7 @@ describe('Plugin wrapper', function () {
       ]);
     });
 
-    it('should support #class selector', function () {
+    it('should support #class selector', () => {
       transformSelectorToMatcher('.circle').should.be.eql([
         {attrs: {'class': 'circle'}}
       ]);
@@ -56,7 +56,7 @@ describe('Plugin wrapper', function () {
     });
   });
 
-  describe('Plugin', function() {
+  describe('Plugin', () => {
     test(
       'should do nothing if fill option not provided',
       null,

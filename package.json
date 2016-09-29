@@ -1,6 +1,6 @@
 {
   "name": "svg-fill-loader",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Webpack loader that changes colors in SVG images",
   "main": "lib/loader.js",
   "scripts": {

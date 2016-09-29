@@ -99,5 +99,11 @@ describe('Plugin wrapper', () => {
       '<path fill="blue" />'
     );
 
+    test(
+      'should preserve nested tags',
+      {fill: 'red', renderOptions: { singleTags: ['animate'] }},
+      '<rect><animate /></rect>',
+      '<rect fill="red"><animate /></rect>'
+    )
   });
 });

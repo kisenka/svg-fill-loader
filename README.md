@@ -101,6 +101,25 @@ This can also be done via import statement, but try avoidig this way:
 import icon from './icon.svg?fill=red&raw=false';
 ```
 
+### `renderOptions` (optional)
+
+Overwrites [render options](https://github.com/posthtml/posthtml-render#options) which by default are the following:
+
+    {
+        singleTags: [
+            'circle',
+            'ellipse',
+            'line',
+            'path',
+            'polygon',
+            'polyline',
+            'rect',
+            'use'
+        ],
+        closingSingleTag: 'slash'
+    }
+    
+
 
 ## Important notes
 

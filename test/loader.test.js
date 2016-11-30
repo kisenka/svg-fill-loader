@@ -38,6 +38,16 @@ describe('SVG fill loader', () => {
       .catch(done);
   });
 
+  it('should not modify input if no `fill` param presented', (done) => {
+    var input = '<svg ></svg>';
+    runInFakeContext(input)
+      .then(function(result) {
+        result.should.be.equal(input);
+        done();
+      })
+      .catch(done);
+  });
+
   it('`raw` option is true by default', (done) => {
     runInFakeContext('<svg></svg>', {query: ''})
       .then(function(result) {

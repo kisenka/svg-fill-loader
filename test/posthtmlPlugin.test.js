@@ -104,6 +104,14 @@ describe('Plugin wrapper', () => {
       {fill: 'red', renderOptions: { singleTags: ['animate'] }},
       '<rect><animate /></rect>',
       '<rect fill="red"><animate /></rect>'
-    )
+    );
+
+    test(
+      'should detect if single element used with start & end tags',
+      {fill: 'red', renderOptions: { singleTags: ['path', 'animateTransform'] }},
+      '<path><animateTransform /></path>',
+      '<path fill="red"><animateTransform /></path>'
+    );
+
   });
 });

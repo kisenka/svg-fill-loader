@@ -15,7 +15,7 @@ Allow to do something like this in CSS:
 }
 ```
 
-Or even something like this in SCSS/LESS/Stylus/etc:
+And something like this in SCSS/LESS/Stylus/etc:
 ```scss
 // _config.scss
 $icon-color: #fff;
@@ -26,6 +26,19 @@ $icon-color: #fff;
   background-image: url('./image.svg?fill=#{$icon-color}');
 }
 ```
+
+Table of contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+  - [`fill`](#fill-required)
+  - [`raw`](#raw-optional-true-by-default)
+  - [`selector`](#selector-optional)
+  - [`renderOptions`](#renderoptions-optional)
+- [Important notes](#important-notes)
+ - [Using with css-loader](#using-with-css-loader)
+ - [Using with resolve-url-loader](#using-with-resolve-url-loader)
+ - [Further SVG handling](#further-svg-handling)
 
 ## Installation
 
@@ -40,6 +53,40 @@ Loader has two settings levels:
 1. Webpack config.
 2. SVG file import statement.
 
+
+### `fill` (required)
+
+Color to repaint with. Specified in the SVG import statement as a required attribute.
+
+```css
+.image {
+  background-image: url('./image.svg?fill=red');
+}
+```
+
+This will result in that each of the repainted tags will receive the `fill="red"` attribute;
+in case you need other attributes, like `stroke` - feel free to submit an issue about that.
+
+### `raw` (optional, true by default)
+
+By default the loader returns the repainted SVG as-is, which is convenient for further processing with
+file-loader (e.g. to create a separate file), or url-loader/svg-url-loader (to embed it in CSS code).
+However, sometimes you might need to get the image as a module (like, for rendering with React).
+In this case, you'll need to set `raw=false`:
+
+```js
+{
+  test: /\.svg/,
+  loader: 'svg-fill-loader?raw=false'
+}
+```
+
+This can also be done via import statement, but try avoiding this way:
+
+```js
+import icon from './icon.svg?fill=red&raw=false';
+```
+
 ### `selector` (optional)
 
 CSS selector for nodes to be repainted. Very simple CSS selectors are supported: 
@@ -48,7 +95,7 @@ CSS selector for nodes to be repainted. Very simple CSS selectors are supported:
 - class selector: `.class`.
 - selectors can be combined via comma: `circle, .path, #id`.
 
-All presentation SVG tags are used as default selector. You can find them in [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L18).
+All presentation SVG tags are used as default selector. You can find them in [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L50).
 
 #### Webpack 1.x config example:
 
@@ -59,8 +106,8 @@ module.exports = {
       {
         test: /\.svg\?fill=/, // match only imports like `url(image.svg?fill=red)`
         loaders: [
-          'url', // or file-loader
-          'svg-fill?selector=path,circle' // `selector` option will be used for all images processed by loader
+          'svg-url-loader', // or url-loader
+          'svg-fill-loader?selector=path,circle' // `selector` option will be used for all images processed by loader
         ]
       }
     ]
@@ -78,12 +125,12 @@ module.exports = {
         test: /\.svg$/,
         resourceQuery: /^\?fill=/, // match only imports like `url(image.svg?fill=red)` 
         use: [
-          'url-loader', // or file-loader
+          'svg-url-loader', // or url-loader
           {
-              loader: 'svg-fill-loader',
-              options: {
-                  selector: 'path,circle' // `selector` option will be used for all images processed by loader                 
-              }
+            loader: 'svg-fill-loader',
+            options: {
+              selector: 'path,circle' // `selector` option will be used for all images processed by loader                 
+            }
           } 
         ]
       }
@@ -92,65 +139,16 @@ module.exports = {
 }
 ```
 
-### `fill` (required)
-
-Color to repaint with. Specified in the SVG import statement as a required attribute.
-
-```css
-.image {
-  background-image: url('./image.svg?fill=red');
-}
-```
-
-This will result in that each of the repainted tags will receive the `fill="red"` attribute;
-in case you need other attributes, like `stroke` - feel free to submit an issue about that.
-
-### `raw` (optional, `true` by default)
-
-By default the loader returns the repainted SVG as-is, which is convenient for further processing with
-file-loader (e.g. to create a separate file), or url-loader (to embed it in CSS code).
-However, sometimes you might need to get the image as a module (like, for rendering with React).
-In this case, you'll need to set `raw=false`:
-
-```js
-{
-  test: /\.svg/,
-  loader: 'svg-fill?raw=false'
-}
-```
-
-This can also be done via import statement, but try avoidig this way:
-
-```js
-import icon from './icon.svg?fill=red&raw=false';
-```
-
 ### `renderOptions` (optional)
 
-Overwrites [render options](https://github.com/posthtml/posthtml-render#options) which by default are the following:
-
-```js
-{
-    singleTags: [
-        'circle',
-        'ellipse',
-        'line',
-        'path',
-        'polygon',
-        'polyline',
-        'rect',
-        'use'
-    ],
-    closingSingleTag: 'slash'
-}
-```
+Overwrites [render options](https://github.com/kisenka/svg-fill-loader/blob/master/lib/process.js#L17) - how SVG file will be rendered.
 
 
 ## Important notes
 
-### Escaping sharp symbol in CSS url() imports
+### Using with css-loader
 
-If you're using css-loader to handle CSS, keep in mind that it will [cut away symbols after `#`](https://github.com/webpack/css-loader/blob/master/lib/loader.js#L79)
+If you're using css-loader to handle CSS, keep in mind that it will [cut away symbols after `#`](https://github.com/webpack-contrib/css-loader/blob/5651d70c0cb2ae6d6ce7a62bb9c7345cb018d600/lib/loader.js#L79)
 when handling imports via `url(...)`, which means that the expression `url(image.svg?fill=#f00)` will be treated as `url(image.svg?fill=)`,
 and the loader will not be able to handle the file. As a workaround, you can use `%23` instead of sharp (ffffuuuu),
 or use the `encodeSharp` loader that is shipped with svg-fill-loader (yey!).
@@ -209,11 +207,28 @@ module.exports = {
 }
 ```
 
+### Using with resolve-url-loader
+
+If you're using resolve-url-loader for rewriting paths in SCSS/LESS/etc, keep in mind that it will remove query string by default for some reason 
+and fill-loader will not be able to handle `fill=` param. To fix this set `keepQuery` option in resolve-loader:
+
+```js
+{
+  test: /\.scss$/,
+  loaders: [
+    'css-loader',
+    'resolve-url-loader?keepQuery', // <- this!
+    'svg-fill-loader/encodeSharp', // encode sharp symbol FTW!
+    'sass-loader'
+  ]
+}
+```
+
 ### Further SVG handling
 
 Don't forget that this loader leaves any further SVG processing to your choice.
 
 You can use:
-* url-loader to inline the SVG into CSS.
+* url-loader/svg-url-loader to inline the SVG into CSS.
 * file-loader to save SVG as a file.
 * gtfo-loader to ooops.

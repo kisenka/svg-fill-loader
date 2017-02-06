@@ -4,7 +4,7 @@
   "description": "Webpack loader that changes colors in SVG images",
   "main": "lib/loader.js",
   "scripts": {
-    "test": "mocha test/*.test.js & npm run coverage",
+    "test": "mocha test/*.test.js",
     "coverage": "istanbul cover --report text --report html --report lcov node_modules/mocha/bin/_mocha"
   },
   "repository": {

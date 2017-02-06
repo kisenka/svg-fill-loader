@@ -50,7 +50,7 @@ CSS selector for nodes to be repainted. Very simple CSS selectors are supported:
 
 All presentation SVG tags are used as default selector. You can find them in [lib/posthtmlPlugin.js](https://github.com/kisenka/svg-fill-loader/blob/master/lib/posthtmlPlugin.js#L18).
 
-Webpack config example:
+#### Webpack 1.x config example:
 
 ```js
 module.exports = {
@@ -61,6 +61,30 @@ module.exports = {
         loaders: [
           'url', // or file-loader
           'svg-fill?selector=path,circle' // `selector` option will be used for all images processed by loader
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### Webpack 2.x config example:
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        resourceQuery: /^\?fill=/, // match only imports like `url(image.svg?fill=red)` 
+        use: [
+          'url-loader', // or file-loader
+          {
+              loader: 'svg-fill-loader',
+              options: {
+                  selector: 'path,circle' // `selector` option will be used for all images processed by loader                 
+              }
+          } 
         ]
       }
     ]
@@ -132,6 +156,8 @@ and the loader will not be able to handle the file. As a workaround, you can use
 or use the `encodeSharp` loader that is shipped with svg-fill-loader (yey!).
 Mind the order in which loaders are used:
 
+#### Webpack 1.x
+
 ```js
 module.exports = {
   module: {
@@ -144,11 +170,38 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/,
+        test: /\.sass$/,
         loaders: [
           'css',
           'svg-fill/encodeSharp', // <- encodeSharp loader should be defined BEFORE css-loader
           'sass' // but after any other loaders which produces CSS
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### Webpack 2.x
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        resourceQuery: /^\?fill=/, 
+        use: [
+          'url-loader',
+          'svg-fill-loader' 
+        ]
+      },
+      {
+        test: /\.sass$/,
+        loaders: [
+          'css-loader',
+          'svg-fill-loader/encodeSharp', // <- encodeSharp loader should be defined BEFORE css-loader
+          'sass-loader' // but after any other loaders which produces CSS
         ]
       }
     ]

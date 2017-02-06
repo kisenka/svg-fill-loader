@@ -196,7 +196,7 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        loaders: [
+        use: [
           'css-loader',
           'svg-fill-loader/encodeSharp', // <- encodeSharp loader should be defined BEFORE css-loader
           'sass-loader' // but after any other loaders which produces CSS

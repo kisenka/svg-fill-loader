@@ -51,7 +51,9 @@ npm install svg-fill-loader --save
 Loader has two settings levels:
 
 1. Webpack config.
-2. SVG file import statement.
+2. SVG file import statement (`background-image: url('./image.svg')`).
+
+Any option defined in webpack config level, can be overridden in file level. 
 
 
 ### `fill` (required)

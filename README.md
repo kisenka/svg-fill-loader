@@ -209,6 +209,24 @@ module.exports = {
 }
 ```
 
+#### Alternative approach using mixin
+You can also use mixin for this instead of webpack configuration:
+```
+@mixin apply-background-image($url, $color) {
+   $base-color: str-slice(inspect($color), 2);
+   background-image: unquote('url("' + $url + "?fill=%23" + $base-color +'")');
+ }
+```
+And use it like this:
+```
+$hex-color: #e6e6e6;
+.your-class {
+  ...
+  @include apply-background-image("../your/image.svg", $hex-color);
+  ...
+}
+```
+
 ### Using with resolve-url-loader
 
 If you're using resolve-url-loader for rewriting paths in SCSS/LESS/etc, keep in mind that it will remove query string by default for some reason 

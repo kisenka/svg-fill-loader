@@ -211,14 +211,14 @@ module.exports = {
 
 #### Alternative approach using mixin
 You can also use mixin for this instead of webpack configuration:
-```
+```scss
 @mixin apply-background-image($url, $color) {
    $base-color: str-slice(inspect($color), 2);
    background-image: unquote('url("' + $url + "?fill=%23" + $base-color +'")');
  }
 ```
 And use it like this:
-```
+```scss
 $hex-color: #e6e6e6;
 .your-class {
   ...

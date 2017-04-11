@@ -53,8 +53,7 @@ Loader has two settings levels:
 1. Webpack config.
 2. SVG file import statement (`background-image: url('./image.svg')`).
 
-Any option defined in webpack config level, can be overridden in file level. 
-
+Any option defined in webpack config level, can be overridden in file level.
 
 ### `fill` (required)
 
@@ -101,12 +100,14 @@ All presentation SVG tags are used as default selector. You can find them in [li
 
 #### Webpack 1.x config example:
 
+**It's safe to pass all SVGs through loader, if no fill param presented it just returns original source.**
+
 ```js
 module.exports = {
   module: {
     loaders: [
       {
-        test: /\.svg\?fill=/, // match only imports like `url(image.svg?fill=red)`
+        test: /\.svg(\?fill=.*)?|$/,
         loaders: [
           'svg-url-loader', // or url-loader
           'svg-fill-loader?selector=path,circle' // `selector` option will be used for all images processed by loader
@@ -125,7 +126,6 @@ module.exports = {
     rules: [
       {
         test: /\.svg$/,
-        resourceQuery: /^\?fill=/, // match only imports like `url(image.svg?fill=red)` 
         use: [
           'svg-url-loader', // or url-loader
           {
@@ -163,7 +163,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.svg\?fill=/,
+        test: /\.svg(\?fill=.*)?|$/,
         loader: [
           'url',
           'svg-fill'
@@ -189,8 +189,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.svg$/,
-        resourceQuery: /^\?fill=/, 
+        test: /\.svg$/, 
         use: [
           'url-loader',
           'svg-fill-loader' 

@@ -107,7 +107,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.svg(\?fill=.*)?|$/,
+        test: /\.svg((\?.*)?|$)/,
         loaders: [
           'svg-url-loader', // or url-loader
           'svg-fill-loader?selector=path,circle' // `selector` option will be used for all images processed by loader
@@ -163,7 +163,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.svg(\?fill=.*)?|$/,
+        test: /\.svg((\?.*)?|$)/,
         loader: [
           'url',
           'svg-fill'
